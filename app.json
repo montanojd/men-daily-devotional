@@ -1,0 +1,118 @@
+{
+  "expo": {
+    "name": "Daily Devotional for Men",
+    "slug": "daily-devotional-men",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#1A1A1A",
+    "scheme": "devotionalformen",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1A1A1A"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.gpapplica.devotionalformenexpo",
+      "buildNumber": "1",
+      "infoPlist": {
+        "UIViewControllerBasedStatusBarAppearance": false,
+        "NSUserTrackingUsageDescription": "Daily Devotional for Men would like to show you personalized content and relevant ads that align with your faith and interests. This helps keep the app free and supports our Christian ministry. You maintain full control and can opt out anytime in your device Settings > Privacy & Security > Tracking.",
+        "GADApplicationIdentifier": "ca-app-pub-4385753817888809~5481155216",
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": false,
+          "NSExceptionDomains": {
+            "firebase.googleapis.com": {
+              "NSExceptionAllowsInsecureHTTPLoads": false,
+              "NSExceptionMinimumTLSVersion": "1.2"
+            },
+            "googleapis.com": {
+              "NSExceptionAllowsInsecureHTTPLoads": false,
+              "NSExceptionMinimumTLSVersion": "1.2"
+            }
+          }
+        },
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDisplayName": "Daily Devotional for Men",
+        "CFBundleName": "DevotionalMen",
+        "UISupportedInterfaceOrientations": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown"
+        ],
+        "UISupportedInterfaceOrientations_iPad": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ],
+        "LSApplicationCategoryType": "public.app-category.lifestyle",
+        "NSNetworkUsageDescription": "This app requires internet access to sync devotional content and provide the latest spiritual guidance for men."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#1A1A1A"
+      },
+      "package": "com.gpapplica.devotionalformenexpo",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "com.android.vending.BILLING",
+        "com.google.android.gms.permission.AD_ID"
+      ]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/favicon.png"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "ON_LOAD"
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "FIREBASE_API_KEY": "AIzaSyD4s_yysV9HI4tb7ZIT_87JwzP5lc3QPgY",
+      "FIREBASE_AUTH_DOMAIN": "devotionalmen.firebaseapp.com",
+      "FIREBASE_DATABASE_URL": "https://devotionalmen-default-rtdb.firebaseio.com",
+      "FIREBASE_PROJECT_ID": "devotionalmen",
+      "FIREBASE_STORAGE_BUCKET": "devotionalmen.firebasestorage.app",
+      "FIREBASE_MESSAGING_SENDER_ID": "573562582048",
+      "FIREBASE_APP_ID": "1:573562582048:web:b20a5ad274c1d2a13a7845",
+      "REVENUECAT_IOS_API_KEY": "appl_YOUR_IOS_REVENUECAT_API_KEY_HERE",
+      "REVENUECAT_ANDROID_API_KEY": "goog_YOUR_ANDROID_REVENUECAT_API_KEY_HERE",
+      "REVENUECAT_ENTITLEMENT_ID": "devotional_premium",
+      "APP_VERSION": "1.0.0",
+      "MAIN_PRODUCT_PRICE": "$9.99",
+      "ENTITLEMENT_ID": "devotional_premium"
+      
+    },
+    "notification": {
+      "icon": "./assets/icon.png",
+      "color": "#1A1A1A"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-web-browser",
+      "expo-secure-store",
+      "expo-tracking-transparency",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-4385753817888809~8714536250",
+          "iosAppId": "ca-app-pub-4385753817888809~5481155216"
+        }
+      ]
+    ]
+  }
+}
