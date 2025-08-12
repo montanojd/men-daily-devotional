@@ -1,0 +1,48 @@
+{
+  "devotionals": {
+    "2025-08-11": {
+      "title": "Trust in His Plan",
+      "verse": "Jeremiah 29:11",
+      "text": "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope. Trust that God's timing is perfect, even when we cannot see the path ahead.",
+      "category": "daily",
+      "isPremium": false
+    },
+    "2025-08-12": {
+      "title": "Leading Your Family",
+      "verse": "Joshua 24:15",
+      "text": "But as for me and my house, we will serve the Lord. Leadership begins at home. Show your family what it means to follow Christ through your actions, decisions, and daily walk.",
+      "category": "family",
+      "isPremium": false
+    }
+  },
+  "topics": {
+    "anxiety": {
+      "verse": "Philippians 4:6-7",
+      "text": "Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus.",
+      "category": "emotions",
+      "isPremium": false
+    },
+    "leadership": {
+      "verse": "1 Timothy 4:12",
+      "text": "Let no one despise you for your youth, but set the believers an example in speech, in conduct, in love, in faith, in purity. True leadership starts with personal integrity and godly character.",
+      "category": "leadership",
+      "isPremium": true
+    }
+  },
+  "manhood": [
+    {
+      "title": "Lead with Integrity",
+      "verse": "Proverbs 20:7",
+      "text": "The righteous man walks in his integrity; his children are blessed after him. Your character today shapes the legacy you leave tomorrow. Lead by example in every aspect of life.",
+      "category": "family",
+      "isPremium": false
+    },
+    {
+      "title": "Spiritual Warrior",
+      "verse": "Ephesians 6:11",
+      "text": "Put on the whole armor of God, that you may be able to stand against the schemes of the devil. Every man faces spiritual battles daily. Equip yourself with prayer, scripture, and fellowship.",
+      "category": "temptation",
+      "isPremium": true
+    }
+  ]
+}
