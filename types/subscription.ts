@@ -1,4 +1,11 @@
 // types/subscription.ts - Tipos para el sistema de suscripciones
+
+// ✅ Definir tipos específicos para evitar conflictos con RevenueCat
+export interface DevotionalSubscriptionPeriod {
+  unit: 'day' | 'week' | 'month' | 'year';
+  numberOfUnits: number;
+}
+
 export interface PurchaseResult {
   success: boolean;
   error?: string;
@@ -16,11 +23,19 @@ export interface SubscriptionStatus {
 
 export interface PremiumFeatures {
   unlimitedDevotionals: boolean;
+  extendedMensGuide: boolean;
+  allSituations: boolean;
   noAds: boolean;
   offlineReading: boolean;
   personalizedContent: boolean;
   exportFeatures: boolean;
   prioritySupport: boolean;
+  mensGroupSharing: boolean;
+  weeklyReflectionPrompts: boolean;
+  scripturalCrossReferences: boolean;
+  dailyPrayerGuides: boolean;
+  fatherhoodContent: boolean;
+  leadershipInsights: boolean;
 }
 
 export interface RevenueCatOffering {

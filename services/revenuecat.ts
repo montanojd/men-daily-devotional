@@ -1,4 +1,4 @@
-// services/revenueCatService.ts - Versión Mejorada con Importación Robusta
+// services/revenuecat.ts - Updated to match working Dog Breed Identifier app
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 
@@ -6,7 +6,6 @@ import {
   PurchaseResult,
   SubscriptionStatus,
   PremiumFeatures,
-  RevenueCatOffering,
   CustomerInfo
 } from '@/types/subscription';
 
@@ -32,45 +31,27 @@ try {
     PURCHASES_ERROR_CODE = RevenueCatModule.PURCHASES_ERROR_CODE; // ✅ AGREGADO
     
     isRevenueCatAvailable = true;
-    console.log('[RevenueCat] ✅ Módulos cargados correctamente');
+    console.log('[RevenueCat] ✅ Módulos cargados correctamente (react-native-purchases 8.11.8)');
   }
 } catch (error: any) {
   console.warn('[RevenueCat] ⚠️ react-native-purchases no disponible:', error.message);
   isRevenueCatAvailable = false;
 }
 
-// ✅ CONFIGURACIÓN CORREGIDA
 const getRevenueCatConfig = () => {
   const iosKey = Constants.expoConfig?.extra?.REVENUECAT_IOS_API_KEY;
   const androidKey = Constants.expoConfig?.extra?.REVENUECAT_ANDROID_API_KEY;
   const entitlementId = Constants.expoConfig?.extra?.REVENUECAT_ENTITLEMENT_ID;
-
-  console.log('[RevenueCat] 🔑 Keys detectadas:', {
-    hasIosKey: !!iosKey,
-    hasAndroidKey: !!androidKey,
-    iosKeyLength: iosKey?.length || 0,
-    androidKeyLength: androidKey?.length || 0,
-    platform: Platform.OS,
-    selectedKey: Platform.OS === 'ios' ? iosKey : androidKey,
-  });
 
   const selectedKey = Platform.select({
     ios: iosKey,
     android: androidKey,
   });
 
-  if (!selectedKey) {
-    console.error('[RevenueCat] ❌ No API Key encontrada para platform:', Platform.OS);
-  }
-
   return {
     apiKey: selectedKey,
-    entitlementId: entitlementId || 'mendevotional_premium',
+    entitlementId: entitlementId || 'devotional_premium',
     enableDebugLogs: __DEV__,
-    attributes: {
-      app_version: Constants.expoConfig?.extra?.APP_VERSION || '1.0.0',
-      platform: Platform.OS,
-    }
   };
 };
 
@@ -93,87 +74,79 @@ export class RevenueCatService {
 
   private checkAvailability(): boolean {
     if (!isRevenueCatAvailable || !Purchases) {
-      console.error('[RevenueCat] ❌ RevenueCat no está disponible o no se pudo cargar.');
+      console.error('[RevenueCat] ❌ No disponible');
       return false;
     }
     return true;
   }
 
+  public getConfiguration() {
+    return {
+      isConfigured: this.isConfigured,
+      isAvailable: isRevenueCatAvailable,
+      error: this.configurationError,
+      hasOfferings: !!this.currentOfferings,
+      productsCount: this.availableProducts.length,
+    };
+  }
+
   public async configure(): Promise<void> {
     if (this.isConfigured) {
-      console.log('[RevenueCat] ✅ Ya configurado, saltando...');
+      console.log('[RevenueCat] ✅ Ya configurado');
       return;
     }
 
     if (!this.checkAvailability()) {
-      const error = 'RevenueCat no está disponible. Verifique la instalación.';
+      const error = 'RevenueCat no disponible';
       this.configurationError = error;
-      throw new Error(error);
+      this.isConfigured = true; // Continuar en modo compatibilidad
+      return;
     }
 
     try {
       const config = getRevenueCatConfig();
 
-      if (!config.apiKey) {
-        throw new Error('API Key de RevenueCat no configurada');
+      if (!config.apiKey || config.apiKey.includes('YOUR_') || config.apiKey.includes('HERE')) {
+        console.warn('[RevenueCat] ⚠️ API Key no configurada - modo compatibilidad');
+        this.isConfigured = true;
+        return;
       }
 
-      console.log('[RevenueCat] 🚀 Configurando RevenueCat...', {
-        platform: Platform.OS,
-        hasApiKey: !!config.apiKey,
-        entitlement: config.entitlementId,
-      });
-
-      if (config.enableDebugLogs && LOG_LEVEL) {
-        Purchases.setLogLevel(LOG_LEVEL.DEBUG);
-      }
+      console.log('[RevenueCat] 🚀 Configurando...');
 
       await Purchases.configure({
         apiKey: config.apiKey,
       });
 
-      if (config.attributes) {
-        await Purchases.setAttributes(config.attributes);
-      }
-
       this.isConfigured = true;
-      console.log('[RevenueCat] ✅ RevenueCat configurado correctamente');
+      console.log('[RevenueCat] ✅ Configurado');
 
       await this.loadOfferings();
       await this.refreshCustomerInfo();
 
     } catch (error: any) {
-      console.error('[RevenueCat] ❌ Error configurando RevenueCat:', error);
+      console.error('[RevenueCat] ❌ Error:', error);
       this.configurationError = error.message;
-      throw error;
+      this.isConfigured = true; // Continuar en modo compatibilidad
     }
   }
 
   public async loadOfferings(): Promise<any> {
-    if (!this.isConfigured || !this.checkAvailability()) {
-      throw new Error('RevenueCat no configurado');
+    if (!this.checkAvailability()) {
+      return { current: null };
     }
 
     try {
-      console.log('[RevenueCat] 📦 Cargando offerings desde dashboard...');
+      console.log('[RevenueCat] 📦 Cargando offerings...');
 
       const offerings = await Purchases.getOfferings();
       this.currentOfferings = offerings;
 
-      if (offerings.current) {
-        this.availableProducts = Object.values(offerings.current.availablePackages || {});
-
-        console.log('[RevenueCat] ✅ Offerings cargados:', {
-          offeringId: offerings.current.identifier,
-          totalPackages: this.availableProducts.length,
-          packages: this.availableProducts.map(p => ({
-            id: p.identifier,
-            price: p.product.priceString,
-            period: p.packageType,
-          }))
-        });
+      if (offerings?.current?.availablePackages) {
+        this.availableProducts = offerings.current.availablePackages;
+        console.log('[RevenueCat] ✅ Offerings cargados:', this.availableProducts.length);
       } else {
-        console.warn('[RevenueCat] ⚠️ No hay offering actual configurado en dashboard');
+        console.warn('[RevenueCat] ⚠️ No hay offerings');
         this.availableProducts = [];
       }
 
@@ -182,11 +155,10 @@ export class RevenueCatService {
     } catch (error: any) {
       console.error('[RevenueCat] ❌ Error cargando offerings:', error);
       this.availableProducts = [];
-      throw error;
+      return { current: null };
     }
   }
 
-  // ✅ MÉTODO AGREGADO PARA COMPATIBILIDAD CON PREMIUM SCREEN
   public async getOfferings(): Promise<any> {
     if (!this.isConfigured) {
       await this.configure();
@@ -203,11 +175,9 @@ export class RevenueCatService {
     return this.availableProducts;
   }
 
-  // ✅ MÉTODO CORREGIDO - OBTENER PRODUCTOS FORMATEADOS SIN DEPENDENCIAS DE PACKAGE_TYPE
   public getFormattedOfferings(): any {
     if (!this.currentOfferings?.current?.availablePackages) {
       return {
-        weekly: null,
         monthly: null,
         annual: null,
       };
@@ -216,25 +186,9 @@ export class RevenueCatService {
     const packages = this.currentOfferings.current.availablePackages;
 
     // ✅ BÚSQUEDA ROBUSTA SIN DEPENDER DE PACKAGE_TYPE (que puede estar undefined)
-    const weekly = packages.find((p: any) => {
-      const id = p.identifier.toLowerCase();
-      const productId = p.product?.identifier?.toLowerCase() || '';
-      
-      // Verificar por identificadores comunes de weekly
-      return (
-        id.includes('weekly') || 
-        id.includes('week') || 
-        id.includes('$rc_weekly') ||
-        productId.includes('weekly') ||
-        productId.includes('week') ||
-        // Solo verificar PACKAGE_TYPE si está disponible
-        (PACKAGE_TYPE && p.packageType === PACKAGE_TYPE.WEEKLY)
-      );
-    });
-
     const monthly = packages.find((p: any) => {
-      const id = p.identifier.toLowerCase();
-      const productId = p.product?.identifier?.toLowerCase() || '';
+      const id = (p.identifier || '').toLowerCase();
+      const productId = (p.product?.identifier || '').toLowerCase();
       
       return (
         id.includes('monthly') || 
@@ -248,8 +202,8 @@ export class RevenueCatService {
     });
 
     const annual = packages.find((p: any) => {
-      const id = p.identifier.toLowerCase();
-      const productId = p.product?.identifier?.toLowerCase() || '';
+      const id = (p.identifier || '').toLowerCase();
+      const productId = (p.product?.identifier || '').toLowerCase();
       
       return (
         id.includes('annual') || 
@@ -265,29 +219,20 @@ export class RevenueCatService {
     });
 
     return {
-      weekly: weekly ? {
-        id: weekly.identifier,
-        price: weekly.product.priceString,
-        title: weekly.product.title,
-        description: weekly.product.description,
-        period: 'week',
-        product: weekly,
-      } : null,
-
       monthly: monthly ? {
         id: monthly.identifier,
-        price: monthly.product.priceString,
-        title: monthly.product.title,
-        description: monthly.product.description,
+        price: monthly.product?.priceString || '$9.99',
+        title: monthly.product?.title || 'Monthly Premium',
+        description: monthly.product?.description || 'Premium access',
         period: 'month',
         product: monthly,
       } : null,
 
       annual: annual ? {
         id: annual.identifier,
-        price: annual.product.priceString,
-        title: annual.product.title,
-        description: annual.product.description,
+        price: annual.product?.priceString || '$59.99',
+        title: annual.product?.title || 'Annual Premium',
+        description: annual.product?.description || 'Premium access',
         period: 'year',
         product: annual,
       } : null,
@@ -295,26 +240,18 @@ export class RevenueCatService {
   }
 
   public async refreshCustomerInfo(): Promise<void> {
-    if (!this.isConfigured || !this.checkAvailability()) return;
+    if (!this.checkAvailability()) return;
 
     try {
       console.log('[RevenueCat] 🔄 Refrescando customer info...');
-
       const customerInfo = await Purchases.getCustomerInfo();
       this.customerInfo = customerInfo;
-
-      console.log('[RevenueCat] ✅ Customer info actualizada:', {
-        userId: customerInfo.originalAppUserId,
-        hasActiveEntitlements: Object.keys(customerInfo.entitlements.active).length > 0,
-        activeEntitlements: Object.keys(customerInfo.entitlements.active),
-      });
-
+      console.log('[RevenueCat] ✅ Customer info actualizada');
     } catch (error) {
-      console.error('[RevenueCat] ❌ Error refrescando customer info:', error);
+      console.error('[RevenueCat] ❌ Error refrescando:', error);
     }
   }
 
-  // ✅ CHECK PREMIUM STATUS CORREGIDO
   public async checkPremiumStatus(): Promise<SubscriptionStatus> {
     if (!this.isConfigured) {
       await this.configure();
@@ -332,24 +269,19 @@ export class RevenueCatService {
       }
 
       const config = getRevenueCatConfig();
-      const entitlement = this.customerInfo.entitlements.active[config.entitlementId];
+      const entitlement = this.customerInfo.entitlements?.active?.[config.entitlementId];
 
       if (entitlement) {
         const planType = this.determinePlanType(entitlement);
         const features = this.getPremiumFeatures(planType);
 
-        console.log('[RevenueCat] ✅ Usuario premium detectado:', {
-          planType,
-          productId: entitlement.productIdentifier,
-          expirationDate: entitlement.expirationDate,
-          willRenew: entitlement.willRenew,
-        });
+        console.log('[RevenueCat] ✅ Usuario premium detectado');
 
         return {
           isActive: true,
           planType,
-          expirationDate: entitlement.expirationDate,
-          willRenew: entitlement.willRenew,
+          expirationDate: entitlement.expirationDate || null,
+          willRenew: entitlement.willRenew || false,
           features,
         };
       } else {
@@ -357,12 +289,11 @@ export class RevenueCatService {
       }
 
     } catch (error) {
-      console.error('[RevenueCat] ❌ Error verificando premium status:', error);
+      console.error('[RevenueCat] ❌ Error verificando premium:', error);
       return this.getFreeStatus();
     }
   }
 
-  // ✅ DETERMINAR TIPO DE PLAN CORREGIDO - SIN DEPENDENCIAS DE PERIOD_TYPE
   private determinePlanType(entitlement: any): 'weekly' | 'monthly' | 'yearly' | 'free' {
     const productId = entitlement.productIdentifier?.toLowerCase() || '';
 
@@ -386,144 +317,34 @@ export class RevenueCatService {
       }
     }
 
-    console.warn('[RevenueCat] ⚠️ No se pudo determinar el tipo de plan, defaulting a free:', {
+    console.warn('[RevenueCat] ⚠️ No se pudo determinar el tipo de plan, defaulting a monthly:', {
       productId,
       periodType: entitlement.periodType,
       hasPeriodType: !!PERIOD_TYPE
     });
 
-    return 'free';
+    return 'monthly'; // Default para devotional app
   }
 
   private getPremiumFeatures(planType: 'weekly' | 'monthly' | 'yearly' | 'free'): PremiumFeatures {
-    const defaultFeatures: PremiumFeatures = {
-      unlimitedDevotionals: false,
-      noAds: false,
-      offlineReading: false,
-      personalizedContent: false,
-      exportFeatures: false,
-      prioritySupport: false,
+    const isPremium = planType !== 'free';
+
+    return {
+      unlimitedDevotionals: isPremium,
+      extendedMensGuide: isPremium,
+      allSituations: isPremium,
+      noAds: isPremium,
+      offlineReading: isPremium,
+      personalizedContent: isPremium,
+      exportFeatures: isPremium,
+      prioritySupport: planType === 'yearly',
+      mensGroupSharing: isPremium,
+      weeklyReflectionPrompts: isPremium,
+      scripturalCrossReferences: isPremium,
+      dailyPrayerGuides: isPremium,
+      fatherhoodContent: isPremium,
+      leadershipInsights: isPremium,
     };
-
-    const featureMatrix: { [key: string]: PremiumFeatures } = {
-      weekly: {
-        ...defaultFeatures,
-        unlimitedDevotionals: true,
-        noAds: true,
-        offlineReading: true,
-      },
-      monthly: {
-        ...defaultFeatures,
-        unlimitedDevotionals: true,
-        noAds: true,
-        offlineReading: true,
-        personalizedContent: true,
-        exportFeatures: true,
-      },
-      yearly: {
-        ...defaultFeatures,
-        unlimitedDevotionals: true,
-        noAds: true,
-        offlineReading: true,
-        personalizedContent: true,
-        exportFeatures: true,
-        prioritySupport: true,
-      },
-      free: defaultFeatures,
-    };
-
-    return featureMatrix[planType] || defaultFeatures;
-  }
-
-  public async purchaseProduct(productPackage: any): Promise<PurchaseResult> {
-    if (!this.isConfigured || !this.checkAvailability()) {
-      return {
-        success: false,
-        error: 'RevenueCat no configurado correctamente'
-      };
-    }
-
-    try {
-      console.log('[RevenueCat] 💳 Iniciando compra:', {
-        packageId: productPackage.identifier,
-        productId: productPackage.product.identifier,
-        price: productPackage.product.priceString,
-      });
-
-      const { customerInfo } = await Purchases.purchasePackage(productPackage);
-
-      const config = getRevenueCatConfig();
-      const hasPremiumEntitlement = customerInfo.entitlements.active[config.entitlementId];
-
-      if (hasPremiumEntitlement) {
-        console.log('[RevenueCat] ✅ Compra exitosa - Premium activado');
-        this.customerInfo = customerInfo;
-        return {
-          success: true,
-          customerInfo
-        };
-      } else {
-        console.warn('[RevenueCat] ⚠️ Compra procesada pero entitlement no activo');
-        return {
-          success: false,
-          error: 'Compra procesada pero premium no activado'
-        };
-      }
-
-    } catch (error: any) {
-      console.error('[RevenueCat] ❌ Error en compra:', error);
-
-      // ✅ VERIFICAR ERROR CODE SOLO SI ESTÁ DISPONIBLE
-      if (PURCHASES_ERROR_CODE && error.code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR) {
-        return {
-          success: false,
-          userCancelled: true,
-          error: 'Compra cancelada por el usuario'
-        };
-      }
-
-      return {
-        success: false,
-        error: error.message || 'Error desconocido en la compra'
-      };
-    }
-  }
-
-  public async restorePurchases(): Promise<PurchaseResult> {
-    console.log('[RevenueCat] 🔄 Restaurando compras...');
-
-    if (!this.isConfigured || !this.checkAvailability()) {
-      return {
-        success: false,
-        error: 'RevenueCat no configurado correctamente'
-      };
-    }
-
-    try {
-      const customerInfo = await Purchases.restorePurchases();
-
-      const config = getRevenueCatConfig();
-      const hasPremiumEntitlement = customerInfo.entitlements.active[config.entitlementId];
-
-      if (hasPremiumEntitlement) {
-        console.log('[RevenueCat] ✅ Compras restauradas - Premium activado');
-        this.customerInfo = customerInfo;
-        return { success: true, customerInfo };
-      } else {
-        console.log('[RevenueCat] ℹ️ No se encontraron compras activas para restaurar');
-        return {
-          success: false,
-          error: 'No se encontraron compras activas para restaurar'
-        };
-      }
-
-    } catch (error: any) {
-      console.error('[RevenueCat] ❌ Error restaurando compras:', error);
-      return {
-        success: false,
-        error: error.message || 'Error restaurando compras'
-      };
-    }
   }
 
   private getFreeStatus(): SubscriptionStatus {
@@ -536,48 +357,120 @@ export class RevenueCatService {
     };
   }
 
-  public getConfiguration() {
-    return {
-      isConfigured: this.isConfigured,
-      hasError: !!this.configurationError,
-      error: this.configurationError,
-      isAvailable: isRevenueCatAvailable,
-    };
-  }
+  public async purchaseProduct(productId: string): Promise<PurchaseResult> {
+    if (!this.checkAvailability()) {
+      return {
+        success: false,
+        error: 'RevenueCat no disponible',
+      };
+    }
 
-  public getCurrentOfferings() {
-    return this.currentOfferings;
-  }
+    try {
+      console.log('[RevenueCat] 💳 Iniciando compra:', productId);
 
-  public getCustomerInfo() {
-    return this.customerInfo;
-  }
+      const product = this.availableProducts.find(p => 
+        p.identifier === productId || p.product?.identifier === productId
+      );
 
-  // ✅ MÉTODOS DE COMPATIBILIDAD CON LA IMPLEMENTACIÓN ORIGINAL
-  public async getPremiumStatus(force = false): Promise<boolean> {
-    const status = await this.checkPremiumStatus();
-    return status.isActive;
-  }
-
-  public async purchasePackageByType(type: 'MONTHLY' | 'ANNUAL') {
-    const offerings = await this.getOfferings();
-    if (!offerings?.current) throw new Error('No current offering');
-    
-    const target = offerings.current.availablePackages.find((p: any) => {
-      if (PACKAGE_TYPE) {
-        return p.packageType === PACKAGE_TYPE[type];
+      if (!product) {
+        return {
+          success: false,
+          error: 'Producto no encontrado',
+        };
       }
-      // Fallback sin PACKAGE_TYPE
-      const id = p.identifier.toLowerCase();
-      return type === 'MONTHLY' ? id.includes('month') : id.includes('annual') || id.includes('year');
-    });
-    
-    if (!target) throw new Error(`${type} package not found`);
-    return this.purchaseProduct(target);
+
+      const result = await Purchases.purchasePackage(product);
+
+      if (result?.customerInfo) {
+        this.customerInfo = result.customerInfo;
+        
+        const config = getRevenueCatConfig();
+        const hasEntitlement = result.customerInfo.entitlements?.active?.[config.entitlementId];
+
+        if (hasEntitlement) {
+          console.log('[RevenueCat] ✅ Compra exitosa');
+          return {
+            success: true,
+            customerInfo: result.customerInfo,
+          };
+        }
+      }
+
+      return {
+        success: false,
+        error: 'Compra no completada',
+      };
+
+    } catch (error: any) {
+      console.error('[RevenueCat] ❌ Error en compra:', error);
+
+      // ✅ VERIFICAR ERROR CODE SOLO SI ESTÁ DISPONIBLE
+      if (PURCHASES_ERROR_CODE && error.code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR) {
+        return {
+          success: false,
+          userCancelled: true,
+        };
+      }
+
+      // Verificar también por mensaje de error común
+      if (error.userCancelled || error.message?.includes('cancelled')) {
+        return {
+          success: false,
+          userCancelled: true,
+        };
+      }
+
+      return {
+        success: false,
+        error: error.message || 'Error desconocido',
+      };
+    }
   }
 
-  public listenCustomerUpdates(cb: (info: CustomerInfo) => void) {
-    if (!this.checkAvailability()) return () => {};
-    return Purchases.addCustomerInfoUpdateListener(cb);
+  public async restorePurchases(): Promise<PurchaseResult> {
+    if (!this.checkAvailability()) {
+      return {
+        success: false,
+        error: 'RevenueCat no disponible',
+      };
+    }
+
+    try {
+      console.log('[RevenueCat] 🔄 Restaurando compras...');
+
+      const result = await Purchases.restorePurchases();
+      this.customerInfo = result;
+
+      const config = getRevenueCatConfig();
+      const hasEntitlement = result.entitlements?.active?.[config.entitlementId];
+
+      if (hasEntitlement) {
+        console.log('[RevenueCat] ✅ Compras restauradas');
+        return {
+          success: true,
+          customerInfo: result,
+        };
+      } else {
+        return {
+          success: false,
+          error: 'No hay compras para restaurar',
+        };
+      }
+
+    } catch (error: any) {
+      console.error('[RevenueCat] ❌ Error restaurando:', error);
+      return {
+        success: false,
+        error: error.message || 'Error restaurando compras',
+      };
+    }
+  }
+
+  public isAvailable(): boolean {
+    return isRevenueCatAvailable;
+  }
+
+  public getCurrentCustomerInfo(): CustomerInfo | null {
+    return this.customerInfo;
   }
 }

@@ -1,0 +1,269 @@
+{
+  "devotionals": {
+    "2025-01-01": {
+      "title": "New Year, New Man",
+      "verse": "2 Corinthians 5:17",
+      "text": "Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here! Start this year as the man God has called you to be. Your identity is not in your past failures, but in Christ's finished work.",
+      "category": "faith",
+      "isPremium": false
+    },
+    "2025-01-02": {
+      "title": "Leading Your Family",
+      "verse": "Joshua 24:15",
+      "text": "But as for me and my house, we will serve the Lord. Leadership begins at home. Show your family what it means to follow Christ through your actions, decisions, and daily walk. Be the spiritual leader God has called you to be.",
+      "category": "family",
+      "isPremium": false
+    },
+    "2025-01-03": {
+      "title": "Integrity at Work",
+      "verse": "Colossians 3:23",
+      "text": "Whatever you do, work heartily, as for the Lord and not for men. Your Christian testimony shines brightest when no one is watching. Be faithful in the small things, and God will entrust you with greater responsibilities.",
+      "category": "work",
+      "isPremium": false
+    },
+    "2025-01-04": {
+      "title": "Overcoming Temptation",
+      "verse": "1 Corinthians 10:13",
+      "text": "No temptation has overtaken you that is not common to man. God is faithful, and he will not let you be tempted beyond your ability, but with the temptation he will also provide the way of escape. God always provides a way out. Look for it and take it.",
+      "category": "temptation",
+      "isPremium": true
+    },
+    "2025-01-05": {
+      "title": "The Power of Prayer",
+      "verse": "James 5:16",
+      "text": "The prayer of a righteous person has great power as it is working. As a man of God, your prayer has power to change situations, hearts, and even nations. Use it to intercede for your family, work, and community.",
+      "category": "prayer",
+      "isPremium": false
+    },
+    "2025-01-06": {
+      "title": "Being a Mentor",
+      "verse": "2 Timothy 2:2",
+      "text": "And what you have heard from me in the presence of many witnesses entrust to faithful men, who will be able to teach others also. Every man needs a mentor and should be a mentor to others. Pour into the next generation.",
+      "category": "leadership",
+      "isPremium": true
+    },
+    "2025-01-07": {
+      "title": "True Humility",
+      "verse": "Philippians 2:3",
+      "text": "Do nothing from selfish ambition or conceit, but in humility count others more significant than yourselves. True strength comes from humility. Pride leads to destruction, but humility leads to honor.",
+      "category": "character",
+      "isPremium": false
+    },
+    "2025-01-08": {
+      "title": "Financial Stewardship",
+      "verse": "Philippians 4:19",
+      "text": "And my God will supply every need of yours according to his riches in glory in Christ Jesus. Trust God as your provider, but be a faithful steward of what He gives you. Money is a tool, not a master.",
+      "category": "finances",
+      "isPremium": true
+    },
+    "2025-01-09": {
+      "title": "Loving Your Wife",
+      "verse": "Ephesians 5:25",
+      "text": "Husbands, love your wives, as Christ loved the church and gave himself up for her. Your marriage is a picture of Christ and the church. Love sacrificially, serve willingly, and lead gently.",
+      "category": "marriage",
+      "isPremium": false
+    },
+    "2025-01-10": {
+      "title": "Self-Control and Discipline",
+      "verse": "1 Corinthians 9:27",
+      "text": "But I discipline my body and keep it under control, lest after preaching to others I myself should be disqualified. Self-discipline is the foundation of effective leadership. Control yourself before you try to lead others.",
+      "category": "character",
+      "isPremium": true
+    },
+    "2025-01-11": {
+      "title": "Trusting God's Timing",
+      "verse": "Ecclesiastes 3:1",
+      "text": "For everything there is a season, and a time for every matter under heaven. God's timing is perfect, even when we can't see His plan. Trust Him in the waiting seasons.",
+      "category": "faith",
+      "isPremium": false
+    },
+    "2025-01-12": {
+      "title": "Fighting Spiritual Battles",
+      "verse": "Ephesians 6:12",
+      "text": "For we do not wrestle against flesh and blood, but against the rulers, against the authorities, against the cosmic powers over this present darkness. Recognize the real enemy and fight with spiritual weapons.",
+      "category": "temptation",
+      "isPremium": true
+    },
+    "2025-01-13": {
+      "title": "Building Strong Friendships",
+      "verse": "Proverbs 27:17",
+      "text": "Iron sharpens iron, and one man sharpens another. Surround yourself with men who challenge you to grow spiritually. Be the kind of friend who speaks truth in love.",
+      "category": "relationships",
+      "isPremium": false
+    },
+    "2025-01-14": {
+      "title": "Managing Anger",
+      "verse": "Ephesians 4:26",
+      "text": "Be angry and do not sin; do not let the sun go down on your anger. Anger is an emotion, not a sin. But what you do with anger can become sinful. Channel it toward justice, not revenge.",
+      "category": "emotions",
+      "isPremium": false
+    },
+    "2025-01-15": {
+      "title": "Sexual Purity",
+      "verse": "1 Thessalonians 4:3-4",
+      "text": "For this is the will of God, your sanctification: that you abstain from sexual immorality; that each one of you know how to control his own body in holiness and honor. Purity is a daily battle won in the mind first.",
+      "category": "temptation",
+      "isPremium": true
+    }
+  },
+  "topics": {
+    "anxiety": {
+      "verse": "Philippians 4:6-7",
+      "text": "Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus. Anxiety is not a sin, but it's a sign that you need to surrender control to God. When worry overwhelms you, remember that God is in control of every detail of your life.",
+      "category": "emotions",
+      "isPremium": false
+    },
+    "anger": {
+      "verse": "Ephesians 4:26-27",
+      "text": "Be angry and do not sin; do not let the sun go down on your anger, and give no opportunity to the devil. Anger can be righteous, but it should never control you. Learn to channel your anger toward justice, not toward sin. Deal with anger quickly before it takes root in bitterness.",
+      "category": "emotions",
+      "isPremium": false
+    },
+    "loneliness": {
+      "verse": "Hebrews 13:5",
+      "text": "Keep your life free from love of money, and be content with what you have, for he has said, 'I will never leave you nor forsake you.' You are never alone. God is with you in every battle and every victory. When you feel isolated, remember that your heavenly Father is always present and always listening.",
+      "category": "emotions",
+      "isPremium": false
+    },
+    "depression": {
+      "verse": "Psalm 34:18",
+      "text": "The Lord is near to the brokenhearted and saves the crushed in spirit. Even in your darkest moments, God is close. His strength is made perfect in your weakness. Depression is not a spiritual failure - it's a human struggle that God understands. Seek help, lean on community, and remember that this season will pass.",
+      "category": "emotions",
+      "isPremium": true
+    },
+    "leadership": {
+      "verse": "1 Timothy 4:12",
+      "text": "Let no one despise you for your youth, but set the believers an example in speech, in conduct, in love, in faith, in purity. True leadership starts with personal integrity and godly character. You cannot lead others where you haven't been yourself. Lead by example, not by force.",
+      "category": "leadership",
+      "isPremium": true
+    },
+    "marriage": {
+      "verse": "Ephesians 5:25-26",
+      "text": "Husbands, love your wives, as Christ loved the church and gave himself up for her, that he might sanctify her. Sacrificial love toward your wife is a reflection of Christ's love for the church. Your role is to serve, protect, and help your wife become all God created her to be.",
+      "category": "family",
+      "isPremium": true
+    },
+    "work": {
+      "verse": "Proverbs 14:23",
+      "text": "In all toil there is profit, but mere talk tends only to poverty. Honest work is a form of worship. Work with excellence as a testimony of your faith. Let your work ethic point others to Christ, whether you're in ministry or the marketplace.",
+      "category": "work",
+      "isPremium": false
+    },
+    "temptation": {
+      "verse": "1 Peter 5:8-9",
+      "text": "Be sober-minded; be watchful. Your adversary the devil prowls around like a roaring lion, seeking someone to devour. Resist him, firm in your faith. Stay alert. The enemy looks for weak points in your armor. Strengthen yourself in the Word, prayer, and accountability with other men.",
+      "category": "temptation",
+      "isPremium": true
+    },
+    "purpose": {
+      "verse": "Jeremiah 29:11",
+      "text": "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope. God has a specific purpose for your life. Trust His plan even when you can't see the full picture. Your current season is preparing you for your next assignment.",
+      "category": "purpose",
+      "isPremium": true
+    },
+    "addiction": {
+      "verse": "1 Corinthians 6:19-20",
+      "text": "Or do you not know that your body is a temple of the Holy Spirit within you, whom you have from God? You are not your own, for you were bought with a price. So glorify God in your body. Addiction is slavery, but Christ offers freedom. Recovery is possible through surrender, community, and the power of the Holy Spirit.",
+      "category": "temptation",
+      "isPremium": true
+    },
+    "fear": {
+      "verse": "2 Timothy 1:7",
+      "text": "For God has not given us a spirit of fear, but of power, of love, and of sound mind. Fear is the opposite of faith. When fear grips you, remember that God has equipped you with everything you need to face any challenge. Courage is not the absence of fear, but action despite fear.",
+      "category": "emotions",
+      "isPremium": false
+    },
+    "forgiveness": {
+      "verse": "Ephesians 4:32",
+      "text": "Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you. Forgiveness is not a feeling - it's a choice. You forgive not because the other person deserves it, but because Christ forgave you. Unforgiveness is a prison where you are the only prisoner.",
+      "category": "relationships",
+      "isPremium": true
+    }
+  },
+  "manhood": [
+    {
+      "title": "Lead with Integrity",
+      "verse": "Proverbs 20:7",
+      "text": "The righteous man walks in his integrity; his children are blessed after him. Your character today shapes the legacy you leave tomorrow. Lead by example in every aspect of life - at home, at work, and in your community.",
+      "category": "family",
+      "isPremium": false
+    },
+    {
+      "title": "Spiritual Warrior",
+      "verse": "Ephesians 6:11",
+      "text": "Put on the whole armor of God, that you may be able to stand against the schemes of the devil. Every man faces spiritual battles daily. Equip yourself with prayer, scripture, and fellowship. The weapons of our warfare are not carnal.",
+      "category": "temptation",
+      "isPremium": true
+    },
+    {
+      "title": "Family Protector",
+      "verse": "1 Timothy 5:8",
+      "text": "But if anyone does not provide for his relatives, and especially for members of his household, he has denied the faith and is worse than an unbeliever. Protection includes physical, emotional, spiritual, and financial provision.",
+      "category": "family",
+      "isPremium": false
+    },
+    {
+      "title": "Mentor and Disciple",
+      "verse": "Proverbs 27:17",
+      "text": "Iron sharpens iron, and one man sharpens another. You need wise mentors and should also mentor others. Growth comes from iron sharpening iron. Find older men to learn from and younger men to pour into.",
+      "category": "leadership",
+      "isPremium": true
+    },
+    {
+      "title": "Master of Self-Control",
+      "verse": "1 Corinthians 9:27",
+      "text": "But I discipline my body and keep it under control, lest after preaching to others I myself should be disqualified. Personal discipline is fundamental for effective leadership. You cannot lead others if you cannot lead yourself.",
+      "category": "character",
+      "isPremium": false
+    },
+    {
+      "title": "Wise Provider",
+      "verse": "Proverbs 21:5",
+      "text": "The plans of the diligent lead surely to abundance, but everyone who is hasty comes only to poverty. Plan wisely. Work diligently. Trust God for the results. Providing means more than just making money.",
+      "category": "finances",
+      "isPremium": true
+    },
+    {
+      "title": "Servant Leader",
+      "verse": "Mark 10:43-44",
+      "text": "But it shall not be so among you. But whoever would be great among you must be your servant, and whoever would be first among you must be slave of all. Greatness comes from humble service, not from domination.",
+      "category": "leadership",
+      "isPremium": false
+    },
+    {
+      "title": "Sexually Pure",
+      "verse": "1 Thessalonians 4:3-4",
+      "text": "For this is the will of God, your sanctification: that you abstain from sexual immorality; that each one of you know how to control his own body in holiness and honor. Sexual purity is a battle won daily in the mind and heart.",
+      "category": "temptation",
+      "isPremium": true
+    },
+    {
+      "title": "Faithful Friend",
+      "verse": "Proverbs 18:24",
+      "text": "A man of many companions may come to ruin, but there is a friend who sticks closer than a brother. Be the kind of friend you want to have. Loyalty and faithfulness define true friendship.",
+      "category": "relationships",
+      "isPremium": false
+    },
+    {
+      "title": "Generous Giver",
+      "verse": "2 Corinthians 9:7",
+      "text": "Each one must give as he has decided in his heart, not reluctantly or under compulsion, for God loves a cheerful giver. Generosity reflects God's heart and builds His kingdom. Give of your time, talents, and treasures.",
+      "category": "finances",
+      "isPremium": true
+    },
+    {
+      "title": "Truth Speaker",
+      "verse": "Ephesians 4:15",
+      "text": "Rather, speaking the truth in love, we are to grow up in every way into him who is the head, into Christ. Real men speak truth, even when it's difficult. But truth without love is just cruelty, and love without truth is just sentiment.",
+      "category": "character",
+      "isPremium": true
+    },
+    {
+      "title": "Prayer Warrior",
+      "verse": "1 Timothy 2:8",
+      "text": "I desire then that in every place the men should pray, lifting holy hands without anger or quarreling. Men are called to be prayer warriors. Your prayers have power to change situations, heal relationships, and advance God's kingdom.",
+      "category": "prayer",
+      "isPremium": true
+    }
+  ]
+}

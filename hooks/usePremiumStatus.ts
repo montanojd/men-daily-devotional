@@ -45,15 +45,13 @@ export function usePremiumStatus() {
     };
     init();
 
-    // Listen to RevenueCat updates
-    const revenueCatService = RevenueCatService.getInstance();
-    const subscription = revenueCatService.listenCustomerUpdates(async () => {
-      console.log('[usePremiumStatus] 🔄 Customer info actualizada, refrescando...');
-      await updatePremiumStatus(true);
-    });
+    // Refresh periodically for RevenueCat updates
+    const interval = setInterval(() => {
+      updatePremiumStatus(true);
+    }, 30000); // Check every 30 seconds
 
     return () => {
-      subscription?.remove?.();
+      clearInterval(interval);
     };
   }, []);
 

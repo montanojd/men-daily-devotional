@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { usePremiumStatus } from '@/hooks/usePremiumStatus';
-import { useInterstitialAds } from '../monetization-ios/hooks/useInterstitialAds';
+import { useInterstitialAds } from './useInterstitialAds';
 
 interface AggressiveAdsConfig {
   interactionThreshold: number; // Cada cuántas interacciones mostrar ad
@@ -20,7 +20,7 @@ const DEFAULT_CONFIG: AggressiveAdsConfig = {
  */
 export function useAggressiveAds(config: Partial<AggressiveAdsConfig> = {}) {
   const { isPremium } = usePremiumStatus();
-  const { showAd } = useInterstitialAds();
+  const { showAd } = useInterstitialAds({ enabled: true });
   
   const finalConfig = { ...DEFAULT_CONFIG, ...config };
   const interactionCount = useRef(0);

@@ -12,5 +12,13 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".expo",
+  "monetization-ios",
+  "monetization-ios/**/*",
+  "../monetization-ios",
+  "../monetization-ios/**/*"
   ]
 }

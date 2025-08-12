@@ -1,7 +1,8 @@
 // app/monetization.ts
 // Initialize monetization for the devotional app
 
-import { implementOptimalMonetization } from '../monetization-ios';
+// Stub monetization initializer to avoid external dependency
+async function implementOptimalMonetization() { /* no-op */ }
 
 /**
  * Initialize monetization with optimal settings for devotional app
