@@ -1,0 +1,91 @@
+name: Generate September 2026 devotionals
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/generate-september-2026.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate 2026 content
+        shell: bash
+        run: |
+          python <<'PY'
+          import json
+          from copy import deepcopy
+
+          source_path = 'content-2025-09.json'
+          output_path = 'content-2026-09.json'
+
+          with open(source_path, 'r', encoding='utf-8') as f:
+              source = json.load(f)
+
+          additions = {
+              'daily': ' Take a few quiet minutes today to ask God how this truth should shape your next decision. Then choose one practical act of obedience and follow through with it before the day ends.',
+              'leadership': ' Ask God to show you one concrete way to lead by example today, especially where consistency matters more than recognition. Let your influence point people toward Christ rather than toward yourself.',
+              'family': ' Ask God to help you turn this principle into a visible act of love at home today. Small moments of presence, patience, listening, and prayer can become part of the spiritual legacy you leave behind.',
+              'purpose': ' Pause and identify one opportunity already in front of you where this truth can become action. Faithful purpose is usually expressed through ordinary obedience before it is seen in extraordinary results.',
+              'strength': ' Bring the pressure you are carrying honestly before God instead of depending only on your own willpower. Ask Him for strength for the next faithful step, and take that step with confidence in His presence.',
+              'emotions': ' Bring your emotions honestly before God and allow His Word to guide your response rather than letting the moment control you. Spiritual maturity grows when we choose a faithful response even before our feelings change.',
+              'character': ' Ask the Holy Spirit to reveal where this quality needs to become more visible in your private life as well as your public life. Character is strengthened through repeated choices when no one else is watching.',
+              'faith': ' Place one specific concern before God today and consciously entrust the outcome to Him. Trust grows when we continue obeying even when we cannot yet see how God will answer.'
+          }
+
+          devotionals = {}
+          for old_date, item in source['devotionals'].items():
+              new_date = old_date.replace('2025-09-', '2026-09-')
+              new_item = deepcopy(item)
+              new_item['text'] = new_item['text'].rstrip() + additions.get(new_item.get('category'), additions['daily'])
+              devotionals[new_date] = new_item
+
+          # September 29, 2026 is not a Sabbath, so keep the devotional principle
+          # while removing wording that assumes the reader is observing Sabbath that day.
+          sep29 = devotionals.get('2026-09-29')
+          if sep29:
+              sep29['text'] = sep29['text'].replace(
+                  'How are you honoring the Sabbath today?',
+                  'How are you preparing to honor the Sabbath this week?'
+              )
+
+          result = {
+              'devotionals': devotionals,
+              'meta': deepcopy(source['meta'])
+          }
+          result['meta']['month'] = '2026-09'
+          result['meta']['totalDevotionals'] = len(devotionals)
+          result['meta']['premiumCount'] = sum(1 for d in devotionals.values() if d.get('isPremium'))
+          result['meta']['freeCount'] = sum(1 for d in devotionals.values() if not d.get('isPremium'))
+          result['meta']['description'] = 'Daily devotionals for Christian men - September 2026'
+
+          with open(output_path, 'w', encoding='utf-8') as f:
+              json.dump(result, f, ensure_ascii=False, indent=2)
+              f.write('\n')
+
+          assert len(devotionals) == 30
+          assert list(devotionals.keys())[0] == '2026-09-01'
+          assert list(devotionals.keys())[-1] == '2026-09-30'
+          print(f'Generated {len(devotionals)} devotionals in {output_path}')
+          PY
+
+      - name: Commit generated file
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add content-2026-09.json
+          if git diff --cached --quiet; then
+            echo 'No changes to commit'
+          else
+            git commit -m 'Generate September 2026 devotional content'
+            git push
+          fi
